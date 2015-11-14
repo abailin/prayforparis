@@ -72,29 +72,30 @@ var App = {
 			
 				// place point on map
 				var color = ["#ff2828","#6f88ff","#ffffff"][Math.floor(Math.random()*3)];
-				var circle = App.svg.append("path")
-					.attr('class', 'circle_el')
-					.attr('fill', color)
-					.attr('opacity', 0.8)
-					.datum(function(d) {
-						return {type: 'Point', coordinates: [data.coords[0], data.coords[1]], radius: 4};
-					})
-					.attr('d', App.map_path);
+				// var circle = App.svg.append("path")
+				// 	.attr('class', 'circle_el')
+				// 	.attr('fill', color)
+				// 	.attr('opacity', 0.8)
+				// 	.datum(function(d) {
+				// 		return {type: 'Point', coordinates: [data.coords[0], data.coords[1]], radius: 4};
+				// 	})
+				// 	.attr('d', App.map_path);
 
 				// old way: paint circle on map
-				// var circle = App.svg.append("circle")
-				// 	.attr("cx", p[0])
-				// 	.attr("cy", p[1])
-				// 	.attr("r", 4)
-				// 	.attr("fill","red")
-				// 	.attr("transform", "translate(0,0)")
-				// 	.attr("opacity", 0.6);
+				var p = App.projection([data.coords[0], data.coords[1]]);
+				var circle = App.svg.append("circle")
+					.attr("cx", p[0])
+					.attr("cy", p[1])
+					.attr("r", 6)
+					.attr("fill",color)
+					.attr("transform", "translate(0,0)")
+					.attr("opacity", 0.8);
 
 				// remove point after some time
 				setTimeout(function() {
 					circle.remove();
 					App.stats.num_tweets_mapped--;
-				}, 10000);
+				}, App.config.remove_dot_ms);
 			}
 			else if (data.message) {
 				console.log("Message from server: " + data.message);
@@ -160,12 +161,9 @@ var App = {
 	
 	initMap: function() 
 	{
-		this.projection = d3.geo.stereographic()
-			.scale(245)
+		this.projection = d3.geo.mercator()
+			.scale((this.map_dims.width + 1) / 2 / Math.PI)
 			.translate([this.map_dims.width / 2, this.map_dims.height / 2])
-			.rotate([-20, 0])
-			.clipAngle(180 - 1e-4)
-			.clipExtent([[0, 0], [this.map_dims.width, this.map_dims.height]])
 			.precision(.1);
 
 		this.map_path = d3.geo.path()
