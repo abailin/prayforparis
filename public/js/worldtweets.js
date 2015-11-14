@@ -6,7 +6,7 @@ var App = {
 	map_path: null,
 	
 	config: {
-		remove_dot_ms: 60000							// how long to wait to remove map point
+		remove_dot_ms: 120000							// how long to wait to remove map point
 	},
 	
 	stats: {
