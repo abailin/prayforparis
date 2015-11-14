@@ -99,7 +99,7 @@ var twit = new twitter({
 });
 
 // tap into dat stream
-twit.stream('statuses/filter', {'locations':'-180,-90,180,90'}, function(stream) {
+twit.stream('statuses/filter', {'locations':'-180,-90,180,90','track':'prayforparis,prayers4paris'}, function(stream) {
 	stream.on('data', function(data) {
 		stats.total_tweets++;
 		if (data.coordinates && data.coordinates.type == 'Point' && data.coordinates.coordinates[0] != 0 && data.coordinates.coordinates[1] != 0) {
