@@ -48,8 +48,8 @@ app.get('/json/world-50m.json', function(req, res) {
 	res.sendFile(__dirname + "/public/json/world-50m.json");
 });
 
-app.get('/js/worldtweets.js', function(req, res) {
-	res.sendFile(__dirname + "/public/js/worldtweets.js");
+app.get('/js/app.js', function(req, res) {
+	res.sendFile(__dirname + "/public/js/app.js");
 });
 
 app.get('/css/bootstrap-lumen.min.css', function(req, res) {
@@ -79,12 +79,18 @@ var T = new Twitter({
 
 // tap into dat stream
 T.stream('statuses/filter', {'locations':'-180,-90,180,90','track':'prayforparis,prayers4paris'}, function(stream) {
+	
 	stream.on('data', function(data) {
 		stats.total_tweets++;
 		if (data.coordinates && data.coordinates.type == 'Point' && data.coordinates.coordinates[0] != 0 && data.coordinates.coordinates[1] != 0) {
 			stats.geo_tweets++;
 			io.emit('msg', { coords: data.coordinates.coordinates});
 		}
+	});
+
+	stream.on('error', function(err) {
+		console.log('error!');
+		console.log(err);
 	});
 });
 
@@ -94,7 +100,7 @@ setInterval(function() {
 }, 1000);
 
 function print_status() {
-	io.sockets.emit('stats', { data: { 
+	io.emit('stats', { data: { 
 		tt: stats.total_tweets, // total tweets
 		gt: stats.geo_tweets, // geo tweets
 		ut: Date.now() - stats.time_start, // uptime in ms
