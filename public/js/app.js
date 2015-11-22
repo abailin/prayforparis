@@ -6,7 +6,7 @@ var App = {
 	map_path: null,
 	
 	config: {
-		remove_dot_ms: 120000							// how long to wait to remove map point
+		remove_dot_ms: 60000							// how long to wait to remove map point
 	},
 	
 	stats: {
@@ -171,9 +171,12 @@ var App = {
 
 		var graticule = d3.geo.graticule();
 
-		this.svg = d3.select("#map").append("svg")
-			.attr("width", this.map_dims.width)
-			.attr("height", this.map_dims.height);
+		this.svg = d3.select("#map")
+			.append("svg")
+			.attr("viewBox", "0 0 " + this.map_dims.width + " " + this.map_dims.height )
+			.attr("preserveAspectRatio", "xMinYMin");
+			// .attr("width", this.map_dims.width)
+			// .attr("height", this.map_dims.height);
 
 		this.svg.append("path")
 			.datum(graticule)
