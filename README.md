@@ -1,8 +1,7 @@
-worldtweets
+prayforparis
 ===========
 
-Real time mapping of public tweets sampled from [Twitter's Streaming API](https://dev.twitter.com/docs/streaming-apis/streams/public), delivered to your browser using [socket.io](http://socket.io), and mapped using [D3.js](http://d3js.org).
-
+Real time mapping of tweets tagged with #prayforparis. Forked from [worldtweets](https://github.com/abailin/worldtweets).
 
 # Running Locally
 Copy `config/config-sample.js` to `config/config.js`. Add in your Twitter API keys (which can be generated [here](https://dev.twitter.com/apps/new)).
@@ -18,7 +17,6 @@ foreman start # (or node server.js)
 
 ``` bash
 heroku create
-heroku labs:enable websockets
 ```
 
 You will need to set the twitter config vars that are normally specified in config.js. To do so run:
