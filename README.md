@@ -1,7 +1,9 @@
-prayforparis
+Pray For Paris
 ===========
 
 Real time mapping of tweets tagged with #prayforparis. Forked from [worldtweets](https://github.com/abailin/worldtweets).
+
+Demo [here](http://prayforparis.abailin.com).
 
 # Running Locally
 Copy `config/config-sample.js` to `config/config.js`. Add in your Twitter API keys (which can be generated [here](https://dev.twitter.com/apps/new)).
